@@ -15,7 +15,7 @@ export default function AllPostsPage() {
         setPosts(data.posts || []);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError('Failed to load posts.');
         setLoading(false);
       });
@@ -25,17 +25,20 @@ export default function AllPostsPage() {
     if (!confirm('Are you sure you want to delete this post?')) return;
 
     try {
-      const res = await fetch(`/api/posts/delete/${slug}`, { method: 'DELETE' });
+      const res = await fetch(`/api/posts/delete/${slug}`, {
+        method: 'DELETE',
+      });
+
       const data = await res.json();
 
       if (data.success) {
         alert('✅ Post deleted');
-        setPosts(posts.filter((post) => post.slug !== slug));
+        setPosts((prev) => prev.filter((post) => post.slug !== slug));
       } else {
         alert('❌ Failed to delete post: ' + data.error);
       }
-    } catch (err) {
-       console.error("Something went wrong");
+    } catch {
+      alert('❌ Error deleting post.');
     }
   };
 
@@ -49,8 +52,18 @@ export default function AllPostsPage() {
 
       <ul style={{ marginTop: '30px', listStyle: 'none', padding: 0 }}>
         {posts.map((post) => (
-          <li key={post._id} style={{ marginBottom: '20px', borderBottom: '1px solid #555', paddingBottom: '10px' }}>
-            <Link href={`/posts/${post.slug}`} style={{ fontSize: '20px', color: '#4ac6ff' }}>
+          <li
+            key={post._id}
+            style={{
+              marginBottom: '20px',
+              borderBottom: '1px solid #555',
+              paddingBottom: '10px',
+            }}
+          >
+            <Link
+              href={`/posts/${post.slug}`}
+              style={{ fontSize: '20px', color: '#4ac6ff' }}
+            >
               {post.title}
             </Link>
             <div style={{ fontSize: '14px', color: '#aaa' }}>
