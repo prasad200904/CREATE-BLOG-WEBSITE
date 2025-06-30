@@ -1,0 +1,31 @@
+.nav {
+  padding: 15px 30px;
+  background: #6ca3de; /* Black background */
+  display: flex;
+  justify-content: space-between; /* logo left, buttons right */
+  align-items: center;
+  border-bottom: 1px solid #444;
+}
+
+.logo {
+  color: #fff; /* White logo text */
+  font-size: 22px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.nav-right {
+  display: flex;
+  gap: 20px;
+}
+
+.link {
+  text-decoration: none;
+  color: #fff;   /* White link text */
+  font-weight: 500;
+  font-size: 16px;
+}
+.link:hover {
+  text-decoration: underline;
+  color: #00bfff; /* Light blue on hover */
+}

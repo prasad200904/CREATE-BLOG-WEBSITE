@@ -1,5 +1,5 @@
-import { dbConnect } from "@/lib/dbConnect";
-import Post from "@/model/Post";
+import { dbConnect } from '@/lib/dbConnect';
+import Post from '@/model/Post';
 
 export async function GET() {
   try {

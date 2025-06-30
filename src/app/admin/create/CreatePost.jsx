@@ -1,76 +1,63 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useParams } from 'next/navigation';
 
-export default function EditPostPage() {
-  const router = useRouter();
-  const { slug } = useParams();
+export default function CreatePost() {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const router = useRouter();
 
-  // Fetch post by slug
-  useEffect(() => {
-    if (!slug) return;
-    fetch(`/api/posts/${slug}`)
-      .then((res) => res.json())
-      .then((data) => {
-        setTitle(data.post?.title || '');
-        setContent(data.post?.content || '');
-      });
-  }, [slug]);
-
-  const handleUpdate = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`/api/posts/update/${slug}`, {
-      method: 'PUT',
+    const response = await fetch('/api/posts/create', {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, content }),
     });
 
-    const data = await res.json();
+    const data = await response.json();
 
     if (data.success) {
-      alert('✅ Post updated successfully!');
+      alert('✅ Post created successfully!');
       router.push(`/posts/${data.post.slug}`);
     } else {
-      alert('❌ Failed to update post: ' + data.error);
+      alert('❌ Error: ' + data.error);
     }
   };
 
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Edit Post</h1>
-      <form onSubmit={handleUpdate}>
+      <h1>Create New Blog Post</h1>
+      <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="Enter title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="Title"
           required
           style={{ width: '100%', padding: '10px', fontSize: '16px' }}
         />
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          placeholder="Content"
-          required
-          style={{ width: '100%', height: '200px', padding: '10px', marginTop: '20px' }}
+          placeholder="Write content here..."
+          style={{ width: '100%', height: '200px', marginTop: '20px', padding: '10px', fontSize: '16px' }}
         />
         <button
           type="submit"
           style={{
             marginTop: '20px',
             padding: '10px 20px',
+            fontSize: '16px',
             backgroundColor: '#0070f3',
             color: '#fff',
             border: 'none',
             cursor: 'pointer',
           }}
         >
-          Update Post
+          Create Post
         </button>
       </form>
     </div>
