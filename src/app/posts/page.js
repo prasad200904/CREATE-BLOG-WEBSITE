@@ -35,7 +35,7 @@ export default function AllPostsPage() {
         alert('❌ Failed to delete post: ' + data.error);
       }
     } catch (err) {
-      alert('❌ Error deleting post.');
+      console.error(err);
     }
   };
 
